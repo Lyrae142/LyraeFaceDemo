@@ -1,0 +1,44 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Lyrae.facedemo.mapper.UserFaceInfoMapper">
+
+    <resultMap id="userFace" type="com.Lyrae.facedemo.pojo.UserFaceInfo">
+        <id column="id" property="id" javaType="int"/>
+        <result column="group_id" property="groupId" javaType="java.lang.Integer"/>
+        <result column="face_id" property="faceId" javaType="String"/>
+        <result column="phone_number" property="phoneNumber" javaType="String"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="face_feature" property="faceFeature"/>
+    </resultMap>
+
+    <resultMap id="userFace2" type="com.Lyrae.facedemo.dto.FaceUserInfo">
+        <id column="id" property="id" javaType="int"/>
+        <result column="group_id" property="groupId" javaType="java.lang.Integer"/>
+        <result column="face_id" property="faceId" javaType="String"/>
+        <result column="phone_number" property="phoneNumber" javaType="String"/>
+        <result column="create_time" property="createTime" javaType="java.util.Date"/>
+        <result column="face_feature" property="faceFeature"/>
+    </resultMap>
+
+    <select id="findUserFaceInfoList" resultMap="userFace" resultType="com.Lyrae.facedemo.pojo.UserFaceInfo">
+        SELECT id, group_id, face_id, name, age, email, gender, phone_number, face_feature, create_time, update_time, fpath
+        FROM user_face_info
+    </select>
+
+    <insert id="insertUserFaceInfo" parameterType="com.Lyrae.facedemo.pojo.UserFaceInfo">
+        INSERT INTO user_face_info (group_id,face_id,name,face_feature)
+        VALUES (#{groupId},#{faceId},#{name},#{faceFeature})
+    </insert>
+
+    <select id="getUserFaceInfoByGroupId" resultType="com.Lyrae.facedemo.dto.FaceUserInfo" resultMap="userFace2" parameterType="integer">
+        select face_id,name,face_feature from user_face_info
+        <if test="groupId != null">
+            where group_id = #{groupId}
+        </if>
+    </select>
+
+
+
+
+</mapper>
